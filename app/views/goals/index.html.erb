@@ -1,0 +1,10 @@
+<h1>All Goals</h1>
+
+<ul>
+  <% @goals.each do |goal| %>
+  <li><%= goal.title %> by <%= goal.user.username %></li>
+  <% end %>
+</ul>
+<br>
+<%= link_to "Back to My Goals", user_url(current_user) %>
+<br>
