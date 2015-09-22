@@ -11,10 +11,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150921221011) do
+ActiveRecord::Schema.define(version: 20150922001537) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "comments", force: :cascade do |t|
+    t.string   "body",             null: false
+    t.integer  "commentable_id",   null: false
+    t.string   "commentable_type", null: false
+    t.integer  "author_id",        null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "comments", ["author_id"], name: "index_comments_on_author_id", using: :btree
+  add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
+
+  create_table "goal_comments", force: :cascade do |t|
+    t.string   "body",       null: false
+    t.integer  "author_id",  null: false
+    t.integer  "goal_id",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "goal_comments", ["author_id"], name: "index_goal_comments_on_author_id", using: :btree
+  add_index "goal_comments", ["goal_id"], name: "index_goal_comments_on_goal_id", using: :btree
 
   create_table "goals", force: :cascade do |t|
     t.string   "title",      null: false
@@ -25,6 +48,17 @@ ActiveRecord::Schema.define(version: 20150921221011) do
   end
 
   add_index "goals", ["user_id"], name: "index_goals_on_user_id", using: :btree
+
+  create_table "user_comments", force: :cascade do |t|
+    t.string   "body",       null: false
+    t.integer  "author_id",  null: false
+    t.integer  "user_id",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "user_comments", ["author_id"], name: "index_user_comments_on_author_id", using: :btree
+  add_index "user_comments", ["user_id"], name: "index_user_comments_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "username",        null: false
