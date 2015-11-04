@@ -1,0 +1,15 @@
+<h1>Goal: <%= @goal.title %></h1>
+
+<% @comments.each do |comment| %>
+  <p><%= comment.body %>  by: <%= comment.author.username %></p>
+  <br>
+<% end %>
+
+<form action="<%=comments_url%>" method="post">
+  <input type="hidden" name="comment[goal]" value="<%=@goal%>">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <label for="comment_body">Comment:</label>
+  <br>
+  <textarea name="comment[body]" rows="8" cols="40" id="comment_body"></textarea>
+  <input type="submit" value="Post Comment">
+</form>

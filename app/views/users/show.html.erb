@@ -1,15 +1,31 @@
 <h1>Welcome <%= @user.username %> </h1>
-<h3>My Goals</h3>
+<h3>My Public Goals</h3>
 <ul>
   <% @goals.each do |goal| %>
-  <li><%= goal.title %>  "<%= goal.goal_type %>"</li>
-    <ul>
-      <li><%= link_to "edit", edit_goal_url(goal) %></li>
-      <li> <%= button_to "delete", goal_url(goal), method: :delete %> </li>
-    </ul>
+    <% if goal.goal_type == "Public" %>
+      <li><%= goal.title %>  "<%= goal.goal_type %>"</li>
+        <ul>
+          <li><%= link_to "comment", goal_url(goal) %></li>
+          <li><%= link_to "edit", edit_goal_url(goal) unless current_user != goal.user %></li>
+          <li><%= button_to "delete", goal_url(goal), method: :delete unless current_user != goal.user %> </li>
+        </ul>
+    <% end %>
   <% end %>
 </ul>
 <br>
+<h3>My Private Goals</h3>
+<ul>
+  <% @goals.each do |goal| %>
+    <% if goal.goal_type == "Private" %>
+      <li><%= goal.title %>  "<%= goal.goal_type %>"</li>
+        <ul>
+          <li><%= link_to "comment", goal_url(goal) %></li>
+          <li><%= link_to "edit", edit_goal_url(goal) unless current_user != goal.user %></li>
+          <li><%= button_to "delete", goal_url(goal), method: :delete unless current_user != goal.user %> </li>
+        </ul>
+    <% end %>
+  <% end %>
+</ul>
 <br>
 <h3>Create New Goal</h3>
 <form action="<%= goals_url %>" method="post">

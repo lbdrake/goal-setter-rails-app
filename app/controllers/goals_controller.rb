@@ -43,7 +43,9 @@ class GoalsController < ApplicationController
   end
 
   def show
-    #maybe keep?
+    @goal = Goal.find(params[:id])
+    @comments = @goal.comments
+    render :show
   end
 
   private
